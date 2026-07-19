@@ -19,11 +19,16 @@ resource "aws_subnet" "web" {
   tags                    = merge(local.tags, { Name = "${local.name}-web-subnet" })
 }
 
+# MISCONFIG #4 (networking): map_public_ip_on_launch flipped to true for the
+# CloudGuardian capstone exercise. Prowler baseline had "VPC subnet does not
+# assign public IP addresses by default" as a PASS (high severity) for this
+# subnet; this flips it to FAIL. To revert: set back to false.
 resource "aws_subnet" "data" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.data_subnet_cidr
-  availability_zone = data.aws_availability_zones.available.names[0]
-  tags              = merge(local.tags, { Name = "${local.name}-data-subnet-a" })
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.data_subnet_cidr
+  availability_zone       = data.aws_availability_zones.available.names[0]
+  map_public_ip_on_launch = true
+  tags                    = merge(local.tags, { Name = "${local.name}-data-subnet-a" })
 }
 
 # RDS DB subnet groups require subnets in at least two AZs, even for a single-AZ instance
