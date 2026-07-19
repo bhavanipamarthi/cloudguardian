@@ -1,0 +1,30 @@
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Python venv for Prowler -- large, machine-specific, never committed
+prowler-env/
+__pycache__/
+*.pyc
+
+# credentials / secrets
+*.csv
+sse.json
+
+# Terraform plan binaries can embed sensitive variable values in plaintext -- never commit
+tfplan
+*.tfplan
+
+# Word app lock files (auto-generated while a .docx is open)
+~$*
+
+# stray test artifacts
+_write_test.txt
