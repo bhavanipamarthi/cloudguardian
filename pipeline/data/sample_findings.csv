@@ -1,0 +1,13 @@
+finding_id,check_id,region,resource_id,resource_type,severity,status,misconfig_id,title
+F001,s3_bucket_public_access,us-east-1,cloudguardian-data-633867805885,AwsS3Bucket,critical,FAIL,MC-04,S3 bucket allows public access
+F002,s3_bucket_default_encryption,us-east-1,cloudguardian-legacy-633867805885,AwsS3Bucket,high,FAIL,MC-01,S3 bucket without default encryption
+F003,iam_user_no_mfa,us-east-1,cloudguardian,AwsIamUser,high,FAIL,MC-03,IAM user does not have MFA enabled
+F004,iam_policy_attached_is_overprivileged,us-east-1,CloudGuardian-ScopedPolicy,AwsIamPolicy,critical,FAIL,MC-02,IAM policy grants wildcard admin-level actions
+F005,ec2_securitygroup_allow_ingress_from_internet_to_port_22,us-east-1,CloudGuardian-db-sg,AwsEc2SecurityGroup,critical,FAIL,MC-05,Security group allows SSH from 0.0.0.0/0
+F006,rds_instance_no_public_access,us-east-1,cloudguardian-db,AwsRdsDbInstance,critical,FAIL,MC-06,RDS instance is publicly accessible
+F007,cloudtrail_multi_region_enabled,us-east-1,CloudGuardian-trail,AwsCloudTrailTrail,high,FAIL,MC-07,CloudTrail logging is disabled
+F008,s3_bucket_versioning_enabled,us-east-1,cloudguardian-data-633867805885,AwsS3Bucket,medium,FAIL,MC-08,S3 bucket versioning suspended
+F009,s3_bucket_level_public_access_block,us-east-1,cloudguardian-cloudtrail-633867805885,AwsS3Bucket,low,PASS,,S3 bucket public access block enabled
+F010,iam_root_hardware_mfa_enabled,us-east-1,root,AwsIamUser,medium,FAIL,,Root account does not have hardware MFA enabled
+F011,s3_bucket_server_access_logging_enabled,us-east-1,cloudguardian-data-633867805885,AwsS3Bucket,medium,FAIL,MC-09,S3 bucket does not have access logging enabled
+F012,rds_instance_storage_encrypted,us-east-1,cloudguardian-db,AwsRdsDbInstance,high,FAIL,MC-10,RDS instance storage is not encrypted at rest
