@@ -1,0 +1,265 @@
+{
+	"results": [
+		{
+			"rule_id": "AVD-AZU-0027",
+			"long_id": "azure-database-enable-audit",
+			"rule_description": "Auditing should be enabled on Azure SQL Databases",
+			"rule_provider": "azure",
+			"rule_service": "database",
+			"impact": "Auditing provides valuable information about access and usage",
+			"resolution": "Enable auditing on Azure SQL databases",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/database/enable-audit/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/sql_server#extended_auditing_policy"
+			],
+			"description": "Server does not have an extended audit policy configured.",
+			"severity": "MEDIUM",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_sql_server.main_public",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\misconfigurations.tf",
+				"start_line": 9,
+				"end_line": 17
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0027",
+			"long_id": "azure-database-enable-audit",
+			"rule_description": "Auditing should be enabled on Azure SQL Databases",
+			"rule_provider": "azure",
+			"rule_service": "database",
+			"impact": "Auditing provides valuable information about access and usage",
+			"resolution": "Enable auditing on Azure SQL databases",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/database/enable-audit/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/sql_server#extended_auditing_policy"
+			],
+			"description": "Server does not have an extended audit policy configured.",
+			"severity": "MEDIUM",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_sql_server.main",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\main.tf",
+				"start_line": 123,
+				"end_line": 131
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0022",
+			"long_id": "azure-database-no-public-access",
+			"rule_description": "Ensure databases are not publicly accessible",
+			"rule_provider": "azure",
+			"rule_service": "database",
+			"impact": "Publicly accessible database could lead to compromised data",
+			"resolution": "Disable public access to database when not required",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/database/no-public-access/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_server#public_network_access_enabled",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server#public_network_access_enabled",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mariadb_server#public_network_access_enabled"
+			],
+			"description": "Database server has public network access enabled.",
+			"severity": "MEDIUM",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_sql_server.main_public",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\misconfigurations.tf",
+				"start_line": 9,
+				"end_line": 17
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0022",
+			"long_id": "azure-database-no-public-access",
+			"rule_description": "Ensure databases are not publicly accessible",
+			"rule_provider": "azure",
+			"rule_service": "database",
+			"impact": "Publicly accessible database could lead to compromised data",
+			"resolution": "Disable public access to database when not required",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/database/no-public-access/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_server#public_network_access_enabled",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server#public_network_access_enabled",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mariadb_server#public_network_access_enabled"
+			],
+			"description": "Database server has public network access enabled.",
+			"severity": "MEDIUM",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_sql_server.main",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\main.tf",
+				"start_line": 123,
+				"end_line": 131
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0029",
+			"long_id": "azure-database-no-public-firewall-access",
+			"rule_description": "Ensure database firewalls do not permit public access",
+			"rule_provider": "azure",
+			"rule_service": "database",
+			"impact": "Publicly accessible databases could lead to compromised data",
+			"resolution": "Don't use wide ip ranges for the sql firewall",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/database/no-public-firewall-access/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/sql_firewall_rule#end_ip_address"
+			],
+			"description": "Firewall rule allows public internet access to a database server.",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_sql_firewall_rule.allow_all",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\misconfigurations.tf",
+				"start_line": 23,
+				"end_line": 23
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0026",
+			"long_id": "azure-database-secure-tls-policy",
+			"rule_description": "Databases should have the minimum TLS set for connections",
+			"rule_provider": "azure",
+			"rule_service": "database",
+			"impact": "Outdated TLS policies increase exposure to known issues",
+			"resolution": "Use the most modern TLS policies available",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/database/secure-tls-policy/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_server#minimum_tls_version",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server#ssl_minimal_tls_version_enforced",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_server#ssl_minimal_tls_version_enforced"
+			],
+			"description": "Database server does not require a secure TLS version.",
+			"severity": "MEDIUM",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_sql_server.main_public",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\misconfigurations.tf",
+				"start_line": 9,
+				"end_line": 17
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0026",
+			"long_id": "azure-database-secure-tls-policy",
+			"rule_description": "Databases should have the minimum TLS set for connections",
+			"rule_provider": "azure",
+			"rule_service": "database",
+			"impact": "Outdated TLS policies increase exposure to known issues",
+			"resolution": "Use the most modern TLS policies available",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/database/secure-tls-policy/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mssql_server#minimum_tls_version",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/mysql_server#ssl_minimal_tls_version_enforced",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/postgresql_server#ssl_minimal_tls_version_enforced"
+			],
+			"description": "Database server does not require a secure TLS version.",
+			"severity": "MEDIUM",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_sql_server.main",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\main.tf",
+				"start_line": 123,
+				"end_line": 131
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0013",
+			"long_id": "azure-keyvault-specify-network-acl",
+			"rule_description": "Key vault should have the network acl block specified",
+			"rule_provider": "azure",
+			"rule_service": "keyvault",
+			"impact": "Without a network ACL the key vault is freely accessible",
+			"resolution": "Set a network ACL for the key vault",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/keyvault/specify-network-acl/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault#network_acls"
+			],
+			"description": "Vault network ACL does not block access by default.",
+			"severity": "CRITICAL",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_key_vault.main",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\main.tf",
+				"start_line": 111,
+				"end_line": 119
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0047",
+			"long_id": "azure-network-no-public-ingress",
+			"rule_description": "An inbound network security rule allows traffic from /0.",
+			"rule_provider": "azure",
+			"rule_service": "network",
+			"impact": "The port is exposed for ingress from the internet",
+			"resolution": "Set a more restrictive cidr range",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/network/no-public-ingress/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule"
+			],
+			"description": "Security group rule allows ingress from public internet.",
+			"severity": "CRITICAL",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_network_security_rule.web_http",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\main.tf",
+				"start_line": 65,
+				"end_line": 65
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0007",
+			"long_id": "azure-storage-no-public-access",
+			"rule_description": "Storage containers in blob storage mode should not have public access",
+			"rule_provider": "azure",
+			"rule_service": "storage",
+			"impact": "Data in the storage container could be exposed publicly",
+			"resolution": "Disable public access to storage containers",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/storage/no-public-access/",
+				"https://www.terraform.io/docs/providers/azure/r/storage_container.html#properties"
+			],
+			"description": "Container allows public access.",
+			"severity": "HIGH",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_storage_container.public",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\misconfigurations.tf",
+				"start_line": 5,
+				"end_line": 5
+			}
+		},
+		{
+			"rule_id": "AVD-AZU-0011",
+			"long_id": "azure-storage-use-secure-tls-policy",
+			"rule_description": "The minimum TLS version for Storage Accounts should be TLS1_2",
+			"rule_provider": "azure",
+			"rule_service": "storage",
+			"impact": "The TLS version being outdated and has known vulnerabilities",
+			"resolution": "Use a more recent TLS/SSL policy for the load balancer",
+			"links": [
+				"https://aquasecurity.github.io/tfsec/v1.28.1/checks/azure/storage/use-secure-tls-policy/",
+				"https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account#min_tls_version"
+			],
+			"description": "Storage account uses an insecure TLS version.",
+			"severity": "CRITICAL",
+			"warning": false,
+			"status": 0,
+			"resource": "azurerm_storage_account.app",
+			"location": {
+				"filename": "C:\\CloudGuardianLab\\infra\\azure-3tier\\main.tf",
+				"start_line": 96,
+				"end_line": 103
+			}
+		}
+	]
+}

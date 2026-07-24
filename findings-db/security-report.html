@@ -1,0 +1,155 @@
+# compare_scans.ps1
+
+Write-Host "========================================" -ForegroundColor Cyan
+Write-Host "  Comparing Baseline vs Post-Misconfig" -ForegroundColor Cyan
+Write-Host "========================================
+" -ForegroundColor Cyan
+
+# Function to parse CSV and count findings
+function Get-FindingCounts {
+    param()
+    
+    if (Test-Path ) {
+         = Import-Csv 
+         = ( | Where-Object { .STATUS -eq "FAIL" }).Count
+         = ( | Where-Object { .STATUS -eq "PASS" }).Count
+         = .Count
+        return @{ Failed = ; Passed = ; Total =  }
+    } else {
+        return @{ Failed = 0; Passed = 0; Total = 0 }
+    }
+}
+
+# Get baseline counts
+ = Get-FindingCounts -CsvPath "scans\baseline\prowler-baseline.csv"
+ = Get-FindingCounts -CsvPath "scans\post-misconfig\prowler-post.csv"
+
+# Display results
+Write-Host "📊 BASELINE SCAN:" -ForegroundColor Green
+Write-Host "   Total Checks: " -ForegroundColor White
+Write-Host "   ✅ Passed: " -ForegroundColor Green
+Write-Host "   ❌ Failed: " -ForegroundColor Red
+
+Write-Host "
+📊 POST-MISCONFIG SCAN:" -ForegroundColor Yellow
+Write-Host "   Total Checks: " -ForegroundColor White
+Write-Host "   ✅ Passed: " -ForegroundColor Green
+Write-Host "   ❌ Failed: " -ForegroundColor Red
+
+Write-Host "
+📈 DIFFERENCE:" -ForegroundColor Cyan
+ = .Failed - .Failed
+ = .Passed - .Passed
+
+if ( -gt 0) {
+    Write-Host "   ⚠️  New FAILED checks: " -ForegroundColor Red
+} else {
+    Write-Host "   ✅ No new failed checks" -ForegroundColor Green
+}
+
+Write-Host "
+========================================" -ForegroundColor Cyan
+Write-Host "  View specific misconfigurations below" -ForegroundColor Cyan
+Write-Host "========================================
+" -ForegroundColor Cyan
+
+# Show specific misconfigurations detected
+Write-Host "🔍 Detected Misconfigurations:" -ForegroundColor Yellow
+
+# Check for specific misconfigurations
+ = Import-Csv "scans\post-misconfig\prowler-post.csv"
+ = Import-Csv "scans\baseline\prowler-baseline.csv"
+
+# Create a list of expected findings
+ = @{
+    "azure_storage_container_public_access" = "Storage container public access"
+    "azure_sql_server_public_access" = "SQL Server public access"
+    "azure_sql_firewall_allow_all_ips" = "SQL Firewall allows all IPs"
+    "azure_sql_database_tde_enabled" = "TDE disabled"
+    "azure_iam_role_custom_over_privileged" = "Over-privileged role"
+}
+
+foreach ( in .GetEnumerator()) {
+     = .Key
+     = .Value
+    
+    # Check if this is a new failure
+     = ( | Where-Object { .CHECK_ID -eq  }).STATUS
+     = ( | Where-Object { .CHECK_ID -eq  }).STATUS
+    
+    if ( -eq "PASS" -and  -eq "FAIL") {
+        Write-Host "   ✅  - DETECTED" -ForegroundColor Red
+    } elseif ( -eq "FAIL" -and  -eq "FAIL") {
+        Write-Host "   ⚠️   - FAILED in baseline (pre-existing)" -ForegroundColor Yellow
+    } else {
+        Write-Host "   ✅  - SECURE" -ForegroundColor Green
+    }
+}
+
+# Save results to file
+ = @{
+    baseline = 
+    post = 
+    difference = @{
+        failed = 
+        passed = 
+    }
+}
+
+ | ConvertTo-Json | Out-File "scans\comparison-results.json"
+
+Write-Host "
+📁 Results saved to: scans\comparison-results.json" -ForegroundColor Green
+
+# Create HTML report
+@"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CloudGuardian - Azure Security Scan Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #0078D4; color: white; padding: 20px; border-radius: 5px; }
+        .stats { display: flex; gap: 20px; margin: 20px 0; }
+        .stat-box { padding: 15px; border: 1px solid #ddd; border-radius: 5px; flex: 1; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .finding { margin: 10px 0; padding: 10px; border-left: 4px solid #0078D4; background: #f5f5f5; }
+        .detected { border-left-color: red; background: #ffebee; }
+        .secure { border-left-color: green; background: #e8f5e9; }
+        .critical { color: red; font-weight: bold; }
+        .high { color: orange; font-weight: bold; }
+        .medium { color: #ffc107; font-weight: bold; }
+        .low { color: #28a745; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ CloudGuardian - Azure Security Scan Results</h1>
+        <p>Generated: 2026-07-24 04:04:22</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-box">
+            <h3>Baseline</h3>
+            <p>Total: </p>
+            <p class="pass">✅ Passed: </p>
+            <p class="fail">❌ Failed: </p>
+        </div>
+        <div class="stat-box">
+            <h3>Post-Misconfig</h3>
+            <p>Total: </p>
+            <p class="pass">✅ Passed: </p>
+            <p class="fail">❌ Failed: </p>
+        </div>
+        <div class="stat-box">
+            <h3>Changes</h3>
+            <p>New Failures: <span class="fail"></span></p>
+            <p>Status: ✅ SECURE</p>
+        </div>
+    </div>
+
+    <h2>🔍 Detected Misconfigurations</h2>
+    
+</body>
+</html>

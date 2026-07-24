@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CloudGuardian - Security Scan Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f7fa; }
+        .header { background: linear-gradient(135deg, #0078D4, #00A3E0); color: white; padding: 20px; border-radius: 10px; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 20px 0; }
+        .stat-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card .number { font-size: 28px; font-weight: bold; }
+        .critical { color: #dc3545; }
+        .high { color: #fd7e14; }
+        .medium { color: #ffc107; }
+        .finding { background: white; padding: 15px; border-radius: 10px; margin: 10px 0; border-left: 4px solid #ccc; }
+        .finding.critical { border-left-color: #dc3545; }
+        .finding.high { border-left-color: #fd7e14; }
+        .finding.medium { border-left-color: #ffc107; }
+        .severity-badge { padding: 3px 10px; border-radius: 15px; color: white; font-size: 12px; display: inline-block; }
+        .severity-badge.critical { background: #dc3545; }
+        .severity-badge.high { background: #fd7e14; }
+        .severity-badge.medium { background: #ffc107; }
+        .remediation { background: #e8f5e9; padding: 10px; border-radius: 5px; margin-top: 10px; }
+        .auto-fix { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+        .auto-fix.yes { background: #4caf50; color: white; }
+        .auto-fix.no { background: #f44336; color: white; }
+        .compliance { background: #e9ecef; height: 20px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .compliance-bar { height: 100%; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛡️ CloudGuardian - Azure Security Scan Report</h1>
+        <p>Generated: 2026-07-24 06:11:54</p>
+        <p>Environment: Azure 3-Tier Reference Workload</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card"><div class="label">Total Findings</div><div class="number">8</div></div>
+        <div class="stat-card"><div class="label">Critical</div><div class="number critical">3</div></div>
+        <div class="stat-card"><div class="label">High</div><div class="number high">3</div></div>
+        <div class="stat-card"><div class="label">Medium</div><div class="number medium">2</div></div>
+    </div>
+
+    <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h2>📊 Compliance Score: 45%</h2>
+        <div class="compliance">
+            <div class="compliance-bar" style="width: 45%; background: #fd7e14;"></div>
+        </div>
+        <p style="color: #666; margin-top: 10px;">⚠️ <strong>Risk Level: HIGH</strong> - 8 misconfigurations detected, including 3 critical issues</p>
+        <p style="color: #666;">Target: 95% compliance for CIS Azure v1.4.0</p>
+    </div>
+
+    <h2>🔍 Detailed Findings</h2>
+
+    <div class="finding critical">
+        <h3>M002: SQL Server Public Access <span class="severity-badge critical">CRITICAL</span></h3>
+        <p><strong>Resource:</strong> azurerm_sql_server.main_public</p>
+        <p>SQL Server allows connections from the public internet. This exposes the database to external attacks.</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Use firewall rules to restrict access to specific IP ranges or VNets.<br>
+            <span class="auto-fix yes">✅ Auto-Fix Available</span>
+        </div>
+    </div>
+
+    <div class="finding critical">
+        <h3>M003: SQL Firewall Allows All IPs <span class="severity-badge critical">CRITICAL</span></h3>
+        <p><strong>Resource:</strong> azurerm_sql_firewall_rule.allow_all</p>
+        <p>SQL firewall allows connections from any IP address (0.0.0.0 - 255.255.255.255).</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Restrict to specific IP ranges or use Virtual Network rules.<br>
+            <span class="auto-fix yes">✅ Auto-Fix Available</span>
+        </div>
+    </div>
+
+    <div class="finding critical">
+        <h3>M005: Custom Administrator Role <span class="severity-badge critical">CRITICAL</span></h3>
+        <p><strong>Resource:</strong> azurerm_role_definition.admin_role</p>
+        <p>Custom role has wildcard '*' actions granting Administrator privileges. Violates least privilege principle.</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Scope permissions to specific required actions only.<br>
+            <span class="auto-fix no">❌ Manual Fix Required</span>
+        </div>
+    </div>
+
+    <div class="finding high">
+        <h3>M001: Public Storage Container <span class="severity-badge high">HIGH</span></h3>
+        <p><strong>Resource:</strong> azurerm_storage_container.public</p>
+        <p>Storage container allows public read access, potentially exposing sensitive data.</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Set container_access_type = 'private'.<br>
+            <span class="auto-fix yes">✅ Auto-Fix Available</span>
+        </div>
+    </div>
+
+    <div class="finding high">
+        <h3>M004: SQL TDE Disabled <span class="severity-badge high">HIGH</span></h3>
+        <p><strong>Resource:</strong> azurerm_sql_database.main_unencrypted</p>
+        <p>Transparent Data Encryption (TDE) is disabled. Data at rest is not encrypted.</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Set transparent_data_encryption.enabled = true.<br>
+            <span class="auto-fix yes">✅ Auto-Fix Available</span>
+        </div>
+    </div>
+
+    <div class="finding high">
+        <h3>M006: Cross-Tenant Role Trust <span class="severity-badge high">HIGH</span></h3>
+        <p><strong>Resource:</strong> azurerm_role_assignment.external_reader</p>
+        <p>Role can be assumed by external tenants, potentially leading to privilege escalation.</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Restrict to specific tenant IDs. Avoid wildcard external principal assignments.<br>
+            <span class="auto-fix no">❌ Manual Fix Required</span>
+        </div>
+    </div>
+
+    <div class="finding medium">
+        <h3>M007: Subnet Service Endpoints <span class="severity-badge medium">MEDIUM</span></h3>
+        <p><strong>Resource:</strong> azurerm_subnet.data_public</p>
+        <p>Subnet has service endpoints enabled, exposing resources to public Azure network.</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Remove service_endpoints and use Private Link instead.<br>
+            <span class="auto-fix yes">✅ Auto-Fix Available</span>
+        </div>
+    </div>
+
+    <div class="finding medium">
+        <h3>M008: Missing Diagnostic Settings <span class="severity-badge medium">MEDIUM</span></h3>
+        <p><strong>Resource:</strong> N/A (missing configuration)</p>
+        <p>Diagnostic settings are not configured for any resources. Logs and metrics are not being collected.</p>
+        <div class="remediation">
+            <strong>🔧 Remediation:</strong> Enable diagnostic settings for all critical resources with appropriate retention periods.<br>
+            <span class="auto-fix yes">✅ Auto-Fix Available</span>
+        </div>
+    </div>
+
+    <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h2>📝 Remediation Priority</h2>
+        <ol>
+            <li><strong>Immediate (Critical):</strong> Fix SQL Server public access and firewall rules</li>
+            <li><strong>High Priority:</strong> Remove Administrator role and cross-tenant trust</li>
+            <li><strong>Medium Priority:</strong> Secure storage containers and enable encryption</li>
+            <li><strong>Low Priority:</strong> Configure diagnostic settings</li>
+        </ol>
+        <br>
+        <h2>📊 Summary</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background: #f5f5f5;">
+                <th style="padding: 10px; text-align: left;">Severity</th>
+                <th style="padding: 10px; text-align: left;">Count</th>
+                <th style="padding: 10px; text-align: left;">Auto-Fixable</th>
+                <th style="padding: 10px; text-align: left;">Manual</th>
+            </tr>
+            <tr>
+                <td>🔴 Critical</td>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>🟠 High</td>
+                <td>3</td>
+                <td>2</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>🟡 Medium</td>
+                <td>2</td>
+                <td>2</td>
+                <td>0</td>
+            </tr>
+            <tr style="font-weight: bold; background: #f5f5f5;">
+                <td>Total</td>
+                <td>8</td>
+                <td>6</td>
+                <td>2</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
