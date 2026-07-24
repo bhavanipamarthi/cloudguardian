@@ -1,0 +1,95 @@
+{
+  "tool": "checkov",
+  "timestamp": "20260724_065026",
+  "summary": {
+    "total_resources": 12,
+    "passed_checks": 4,
+    "failed_checks": 8,
+    "critical": 3,
+    "high": 3,
+    "medium": 2,
+    "low": 0
+  },
+  "results": [
+    {
+      "check_id": "AZURE_STORAGE_CONTAINER_PUBLIC",
+      "resource": "azurerm_storage_container.public",
+      "description": "Storage container allows public read access",
+      "severity": "HIGH",
+      "status": "FAIL",
+      "remediation": "Set container_access_type = 'private'",
+      "file": "misconfigurations.tf",
+      "line": 5
+    },
+    {
+      "check_id": "AZURE_SQL_SERVER_PUBLIC",
+      "resource": "azurerm_sql_server.main_public",
+      "description": "SQL Server has public network access enabled",
+      "severity": "CRITICAL",
+      "status": "FAIL",
+      "remediation": "Set public_network_access_enabled = false",
+      "file": "misconfigurations.tf",
+      "line": 13
+    },
+    {
+      "check_id": "AZURE_SQL_FIREWALL_ALLOW_ALL",
+      "resource": "azurerm_sql_firewall_rule.allow_all",
+      "description": "SQL firewall allows all IP addresses (0.0.0.0 - 255.255.255.255)",
+      "severity": "CRITICAL",
+      "status": "FAIL",
+      "remediation": "Restrict to specific IP ranges or use VNet rules",
+      "file": "misconfigurations.tf",
+      "line": 22
+    },
+    {
+      "check_id": "AZURE_SQL_TDE_DISABLED",
+      "resource": "azurerm_sql_database.main_unencrypted",
+      "description": "Transparent Data Encryption (TDE) is disabled",
+      "severity": "HIGH",
+      "status": "FAIL",
+      "remediation": "Set transparent_data_encryption.enabled = true",
+      "file": "misconfigurations.tf",
+      "line": 42
+    },
+    {
+      "check_id": "AZURE_IAM_CUSTOM_ADMIN_ROLE",
+      "resource": "azurerm_role_definition.admin_role",
+      "description": "Custom role has wildcard '*' actions (Administrator privileges)",
+      "severity": "CRITICAL",
+      "status": "FAIL",
+      "remediation": "Scope permissions to specific required actions",
+      "file": "misconfigurations.tf",
+      "line": 55
+    },
+    {
+      "check_id": "AZURE_IAM_EXTERNAL_TRUST",
+      "resource": "azurerm_role_assignment.external_reader",
+      "description": "Role can be assumed by external tenant (cross-tenant)",
+      "severity": "HIGH",
+      "status": "FAIL",
+      "remediation": "Restrict to specific tenant IDs",
+      "file": "misconfigurations.tf",
+      "line": 65
+    },
+    {
+      "check_id": "AZURE_SUBNET_PUBLIC_IP",
+      "resource": "azurerm_subnet.data_public",
+      "description": "Subnet has service endpoints enabled exposing to public Azure network",
+      "severity": "MEDIUM",
+      "status": "FAIL",
+      "remediation": "Remove service_endpoints configuration",
+      "file": "misconfigurations.tf",
+      "line": 33
+    },
+    {
+      "check_id": "AZURE_MONITOR_DIAGNOSTIC_SETTING",
+      "resource": "cloudguardian-rg",
+      "description": "Diagnostic settings not enabled for monitoring",
+      "severity": "MEDIUM",
+      "status": "FAIL",
+      "remediation": "Enable diagnostic settings for all resources",
+      "file": "N/A (missing configuration)",
+      "line": 0
+    }
+  ]
+}

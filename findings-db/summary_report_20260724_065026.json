@@ -1,0 +1,76 @@
+{
+  "scan_timestamp": "20260724_065026",
+  "total_findings": 8,
+  "severity_breakdown": {
+    "critical": 3,
+    "high": 3,
+    "medium": 2,
+    "low": 0
+  },
+  "misconfigurations": [
+    {
+      "id": "M001",
+      "title": "Public Storage Container",
+      "severity": "HIGH",
+      "resource": "azurerm_storage_container.public",
+      "detected": true,
+      "auto_fixable": true
+    },
+    {
+      "id": "M002",
+      "title": "SQL Server Public Access",
+      "severity": "CRITICAL",
+      "resource": "azurerm_sql_server.main_public",
+      "detected": true,
+      "auto_fixable": true
+    },
+    {
+      "id": "M003",
+      "title": "SQL Firewall Allows All IPs",
+      "severity": "CRITICAL",
+      "resource": "azurerm_sql_firewall_rule.allow_all",
+      "detected": true,
+      "auto_fixable": true
+    },
+    {
+      "id": "M004",
+      "title": "SQL TDE Disabled",
+      "severity": "HIGH",
+      "resource": "azurerm_sql_database.main_unencrypted",
+      "detected": true,
+      "auto_fixable": true
+    },
+    {
+      "id": "M005",
+      "title": "Custom Administrator Role",
+      "severity": "CRITICAL",
+      "resource": "azurerm_role_definition.admin_role",
+      "detected": true,
+      "auto_fixable": false
+    },
+    {
+      "id": "M006",
+      "title": "Cross-Tenant Role Trust",
+      "severity": "HIGH",
+      "resource": "azurerm_role_assignment.external_reader",
+      "detected": true,
+      "auto_fixable": false
+    },
+    {
+      "id": "M007",
+      "title": "Subnet Service Endpoints",
+      "severity": "MEDIUM",
+      "resource": "azurerm_subnet.data_public",
+      "detected": true,
+      "auto_fixable": true
+    },
+    {
+      "id": "M008",
+      "title": "Missing Diagnostic Settings",
+      "severity": "MEDIUM",
+      "resource": "N/A",
+      "detected": true,
+      "auto_fixable": true
+    }
+  ]
+}
